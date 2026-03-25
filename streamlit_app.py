@@ -75,7 +75,8 @@ if st.button("🚀 Calcola Valore Mercato", use_container_width=True):
     try:
         # Quando sarai su Render, sostituisci con l'URL dell'istanza web
         # es: https://tua-api.onrender.com/predict
-        API_URL = "http://127.0.0.1:8000/predict"
+        #API_URL = "http://127.0.0.1:8000/predict"
+        API_URL = "https://belgian-real-estate-price-estimator.onrender.com/predict"
 
         with st.spinner("Interrogando l'intelligenza artificiale..."):
             res = requests.post(API_URL, json=payload)
