@@ -5,8 +5,15 @@ from pydantic import BaseModel, Field
 from src.input_data_cleaning import preprocess
 from src.prediction import predict_price
 from typing import Optional, Literal
+import json
 
 app = FastAPI()
+
+with open("model/metrics_h.json", "r") as f:
+    MAE_HOUSE = json.load(f)["mae_h"]
+
+with open("model/metrics_a.json", "r") as f:
+    MAE_APART = json.load(f)["mae_a"]
 
 
 class PropertyData(BaseModel):
@@ -48,10 +55,16 @@ def predict(input_data: HouseInput):
 
         # 2. Prediction
         price = predict_price(processed_df)
+        prop_type = input_data.data.property_type.lower()
+        # Seleziona il MAE corretto in base al tipo di proprietà
+        current_mae = MAE_HOUSE if prop_type == "house" else MAE_APART
 
-        # 3. Output come richiesto dalla challenge
-        return {"prediction": price, "status_code": 200}
-
+        return {
+            "prediction": round(price, 2),
+            "lower_bound": round(price - current_mae, 2),
+            "upper_bound": round(price + current_mae, 2),
+            "mae": round(current_mae, 2),
+        }
     except Exception as e:
         import traceback
 

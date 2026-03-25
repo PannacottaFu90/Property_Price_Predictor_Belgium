@@ -28,6 +28,7 @@ from src.models import (
 from pathlib import Path
 import matplotlib.pyplot as plt
 from sklearn.model_selection import cross_val_score
+import json
 
 BASE_DIR = Path(__file__).resolve().parent
 
@@ -67,6 +68,13 @@ y_log = np.log1p(y)
 final_model_h = clone(pipeline1)
 final_model_h.fit(X, y_log)
 
+y_pred_h = final_model_h.predict(X)
+y_pred_h_euro = np.expm1(y_pred_h)
+mae_value_h = mean_absolute_error(y, y_pred_h_euro)
+hmae_path = BASE_DIR / "model" / "metrics_h.json"
+with open(hmae_path, "w") as f:
+    json.dump({"mae_h": float(mae_value_h)}, f)
+
 house_path = BASE_DIR / "model" / "model_house.pkl"
 h_zip_map_path = BASE_DIR / "model" / "zip_map_h.pkl"
 joblib.dump(final_model_h, house_path)
@@ -84,6 +92,13 @@ X["zip_code"] = X["zip_code"].map(final_zip_map_a)
 y_log = np.log1p(y)
 final_model_a = clone(pipeline1)
 final_model_a.fit(X, y_log)
+
+y_pred_a = final_model_a.predict(X)
+y_pred_a_euro = np.expm1(y_pred_a)
+mae_value_a = mean_absolute_error(y, y_pred_a_euro)
+amae_path = BASE_DIR / "model" / "metrics_a.json"
+with open(amae_path, "w") as f:
+    json.dump({"mae_a": float(mae_value_a)}, f)
 
 app_path = BASE_DIR / "model" / "model_apartament.pkl"
 a_zip_map_path = BASE_DIR / "model" / "zip_map_a.pkl"
