@@ -35,7 +35,7 @@ The prediction engine is built on two optimized **XGBoost Regressor** models. To
 ---
 
 ## 📂 Project Structure
-
+```text
 ├── app.py                 # FastAPI Main Entry
 ├── streamlit_app.py       # Streamlit Dashboard
 ├── model_creator.py       # Training & Evaluation Script
