@@ -71,6 +71,10 @@ final_model_h.fit(X, y_log)
 y_pred_h = final_model_h.predict(X)
 y_pred_h_euro = np.expm1(y_pred_h)
 mae_value_h = mean_absolute_error(y, y_pred_h_euro)
+r2_h = r2_score(y, y_pred_h_euro)
+made_h = mean_absolute_percentage_error(y, y_pred_h_euro)
+print(f"R2 House: {r2_h}")
+print(f"made h: {made_h}")
 hmae_path = BASE_DIR / "model" / "metrics_h.json"
 with open(hmae_path, "w") as f:
     json.dump({"mae_h": float(mae_value_h)}, f)
@@ -96,6 +100,10 @@ final_model_a.fit(X, y_log)
 y_pred_a = final_model_a.predict(X)
 y_pred_a_euro = np.expm1(y_pred_a)
 mae_value_a = mean_absolute_error(y, y_pred_a_euro)
+r2_a = r2_score(y, y_pred_a_euro)
+made_a = mean_absolute_percentage_error(y, y_pred_a_euro)
+print(f"made a: {made_a}")
+print(f"R2 apartment: {r2_a}")
 amae_path = BASE_DIR / "model" / "metrics_a.json"
 with open(amae_path, "w") as f:
     json.dump({"mae_a": float(mae_value_a)}, f)
