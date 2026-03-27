@@ -53,8 +53,8 @@ The prediction engine is built on two optimized **XGBoost Regressor** models. To
 ### Using Docker (Recommended)
 This is the fastest way to run the API locally without worrying about dependencies.
 
-docker build -t belgium-re-predictor .
-docker run -p 8000:8000 belgium-re-predictor
+    docker build -t belgium-re-predictor .
+    docker run -p 8000:8000 belgium-re-predictor
 
 The API will be available at: http://localhost:8000/docs
 
@@ -70,22 +70,21 @@ The API will be available at: http://localhost:8000/docs
     streamlit run streamlit_app.py
 
 ## 🔌 API Integration
-
 You can request a prediction programmatically via terminal or any HTTP client:
 
-curl -X 'POST' \
-  '[https://belgian-real-estate-price-estimator.onrender.com/predict](https://belgian-real-estate-price-estimator.onrender.com/predict)' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "data": {
-    "livable_surface_m2": 150,
-    "property_type": "house",
-    "zip_code": 1000,
-    "building_condition": "Good",
-    "has_swimming_pool": false,
-    "kitchen_equipped": true
-  }
-}'
+    curl -X 'POST' \
+    '[https://belgian-real-estate-price-estimator.onrender.com/predict](https://belgian-real-estate-price-estimator.onrender.com/predict)' \
+    -H 'Content-Type: application/json' \
+    -d '{
+    "data": {
+        "livable_surface_m2": 150,
+        "property_type": "house",
+        "zip_code": 1000,
+        "building_condition": "Good",
+        "has_swimming_pool": false,
+        "kitchen_equipped": true
+    }
+    }'
 
 ## 🤝 Contact & Development
 
