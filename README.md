@@ -1,9 +1,4 @@
 # 🏠 Belgian Real Estate Price Estimator
-![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
-![FastAPI](https://img.shields.io/badge/API-FastAPI-009688.svg)
-![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-FF4B4B.svg)
-![XGBoost](https://img.shields.io/badge/ML-XGBoost-ebba2d.svg)
-![Docker](https://img.shields.io/badge/Container-Docker-2496ED.svg)
 
 An end-to-end Machine Learning ecosystem to estimate property prices in Belgium. This project features a dual-model approach (House/Apartment), a robust FastAPI backend, and an interactive Streamlit dashboard for end-users.
 
@@ -95,3 +90,10 @@ curl -X 'POST' \
 ## 🤝 Contact & Development
 
 Developed by PannacottaFu90.
+
+
+![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
+![FastAPI](https://img.shields.io/badge/API-FastAPI-009688.svg)
+![Streamlit](https://img.shields.io/badge/Frontend-Streamlit-FF4B4B.svg)
+![XGBoost](https://img.shields.io/badge/ML-XGBoost-ebba2d.svg)
+![Docker](https://img.shields.io/badge/Container-Docker-2496ED.svg)
