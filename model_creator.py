@@ -55,7 +55,7 @@ pipeline1 = Pipeline(
     ]
 )
 
-# case total
+# houses total
 X = df_h_tot.drop("price", axis=1)
 y = df_h_tot["price"]
 
@@ -85,7 +85,7 @@ joblib.dump(final_model_h, house_path)
 joblib.dump(final_zip_map_h, h_zip_map_path)
 print("Modello house allenato e salvato con successo in model/model.pkl")
 
-# appartamenti total
+# apartament total
 X = df_a_tot.drop("price", axis=1)
 y = df_a_tot["price"]
 

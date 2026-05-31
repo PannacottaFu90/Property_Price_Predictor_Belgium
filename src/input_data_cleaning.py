@@ -3,7 +3,6 @@ import numpy as np
 import joblib
 from pathlib import Path
 
-# CARICAMENTO GLOBALE (Sposta i file in una cartella accessibile)
 BASE_DIR = Path(__file__).resolve().parent.parent
 zip_map_h = joblib.load(BASE_DIR / "model" / "zip_map_h.pkl")
 zip_map_a = joblib.load(BASE_DIR / "model" / "zip_map_a.pkl")
@@ -13,7 +12,6 @@ def preprocess(property_data):
     data_dict = property_data.dict()
     df = pd.DataFrame([data_dict])
 
-    # 1. Definizione liste (uguali al training)
     numeric_features = [
         "livable_surface_m2",
         "garages_final",
@@ -29,10 +27,9 @@ def preprocess(property_data):
         "kitchen_equipped",
     ]
 
-    # Escludiamo zip_code dalle categoriche perché ora è un numero (avg_price)
     categorical_features = ["property_type", "region", "building_condition"]
 
-    # 2. Gestione REGION e ZIP_CODE
+    # REGION & ZIP_CODE
     def get_region_from_zip(z):
         if 1000 <= z <= 1299:
             return "Bruxelles"
@@ -50,20 +47,18 @@ def preprocess(property_data):
     else:
         df["zip_code"] = float(zip_map_a.get(current_zip, zip_map_a.mean()))
 
-    # 3. Formattazione stringhe per OrdinalEncoder e OneHot
+    # for OrdinalEncoder - OneHot
     df["building_condition"] = (
         df["building_condition"].str.upper().str.replace(" ", "_")
     )
     df["property_type"] = df["property_type"].replace("apartment", "appartment")
 
-    # 4. Forzatura tipi di dato
     for col in numeric_features:
         df[col] = pd.to_numeric(df[col], errors="coerce").fillna(0)
 
     for col in binary_features:
         df[col] = df[col].astype(int)
 
-    # 5. Ordine finale (deve essere IDENTICO al training)
     column_order = [
         "zip_code",
         "property_type",

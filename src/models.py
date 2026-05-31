@@ -18,7 +18,6 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder, OrdinalEncoder
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 
-# divisione delle colonne in categorie
 numeric_median_features = [
     # "number_of_bedrooms",  # nans to manage
     "livable_surface_m2",
@@ -29,7 +28,6 @@ numeric_median_features = [
     "garden_area_m2",
     "zip_code",  #
 ]
-# numeric_most_frequent_features = ["number_of_facades"]  #
 binary_features = [
     # "energy_data_missing",
     "has_swimming_pool",
@@ -65,15 +63,14 @@ condition_order = [
 # pipelines preparation
 mode_transformer = Pipeline(
     steps=[
-        ("imputer", SimpleImputer(strategy="most_frequent")),  # Ecco la Moda
+        ("imputer", SimpleImputer(strategy="most_frequent")),
         ("scaler", StandardScaler()),
     ]
 )
 median_transformer = Pipeline(
     steps=[("imputer", SimpleImputer(strategy="median")), ("scaler", StandardScaler())]
 )
-# Pipeline per le categorie: trasforma il testo in numeri (OneHotEncoder)
-# handle_unknown='ignore' è fondamentale per non far bloccare il modello se nel test appare un CAP mai visto
+
 categorical_transformer = Pipeline(
     steps=[("onehot", OneHotEncoder(handle_unknown="ignore"))]
 )
@@ -86,17 +83,16 @@ linear_preprocessor = ColumnTransformer(
     ]
 )
 
-# 1. Rimuovi building_condition da hot_encoder_features per non duplicarla
 hot_encoder_no_condition = [
     c for c in hot_encoder_features if c != "building_condition"
 ]
 
-# A. PREPROCESSOR: Con Imputer + Ordinal (Scala numerica)
+# A. PREPROCESSOR: Imputer + Ordinal
 prep_impute_ordinal = ColumnTransformer(
     transformers=[
         (
             "num_med",
-            median_transformer,  # USA IL TRANSFORMER CHE HA LO SCALER!
+            median_transformer,
             (numeric_median_features + binary_features),
         ),
         (
@@ -112,7 +108,7 @@ prep_impute_ordinal = ColumnTransformer(
             "cat",
             OneHotEncoder(handle_unknown="ignore"),
             hot_encoder_no_condition,
-        ),  # Usa la lista pulita
+        ),
     ]
 )
 
@@ -121,24 +117,20 @@ def update_leaderboard(
     leaderboard, model_name, params, subset_name, r2, mae, rmse, mape, medae, max_err
 ):
     """
-    Aggiunge una nuova riga con i risultati della simulazione alla tabella.
+    Add a new line for every simulation
     """
-    # Creiamo il dizionario con i dati della simulazione corrente
     new_entry = {
         "Algorithm": model_name,
-        "Parameters": str(params),  # Convertiamo in stringa per leggibilità nel DF
+        "Parameters": str(params),
         "Subset": subset_name,
         "R2_Score": round(r2, 4),
         "MAE": round(mae, 2),
-        # All'interno del tuo ciclo di valutazione:
         "mape": round(mape, 2),
         "medae": round(medae, 2),
         "rmse": round(rmse, 2),
         "max_err": round(max_err, 2),
     }
 
-    # Aggiungiamo la riga al DataFrame esistente
-    # Se il DF è vuoto, lo inizializza con questa riga
     new_row = pd.DataFrame([new_entry])
     leaderboard = pd.concat([leaderboard, new_row], ignore_index=True)
 
