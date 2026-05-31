@@ -99,12 +99,12 @@ if tool == "Estimator":
         except Exception as e:
             st.error(f"Connection error: {e}")
 
-# --- TOOL 2: ANALIZZATORE DEAL ---
+## --- TOOL 2: DEAL CHECKER ---
 elif tool == "Deal":
     st.title("💰 Deal Checker")
-    st.write("Compare thepriceof an isertion with AI prediction.")
+    st.write("Compare the listing price with the AI market estimate.")
 
-    # Prezzo richiesto in evidenza
+    # Highlight the requested price
     asking_price = st.number_input("💵 Price (€)", min_value=10000, step=5000)
     st.divider()
 
@@ -129,7 +129,7 @@ elif tool == "Deal":
                     )
                 elif asking_price < (pred + (mae * 0.5)):
                     st.info(
-                        f"⚖️ **CORRECT PRICE**: The insertion seems aligned with the market."
+                        f"⚖️ **CORRECT PRICE**: The listing seems aligned with the market."
                     )
                 else:
                     st.error(f"⚠️ **DANGER!**: The property seems too expensive.")
